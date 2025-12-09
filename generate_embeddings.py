@@ -9,31 +9,24 @@ import os
 import cv2
 import json
 import glob
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 from roboflow import Roboflow
 import os
 
 
 cwd = os.getcwd()
 
-ROOT_DIR = os.path.join(cwd, "train")
-
-
 labels = {}
 
-for folder in os.listdir(ROOT_DIR):
-    folder_path = os.path.join(ROOT_DIR, folder)
-
-    if not os.path.isdir(folder_path):
-        continue
-
-    for file in os.listdir(folder_path):
+for person in ["Alex", "Kelly"]:
+    folder = os.path.join(cwd, person)
+    for file in os.listdir(folder):
         if file.lower().endswith((".jpg", ".jpeg", ".png")):
-            full_path = os.path.join(folder_path, file)
-            labels[full_path] = folder   
+            full_path = os.path.join(folder, file)
+            labels[full_path] = person
 
 files = labels.keys()
-print(labels)
+print(f"Found {len(labels)} images")
 
 
 dinov2_vits14 = torch.hub.load("facebookresearch/dinov2", "dinov2_vits14")

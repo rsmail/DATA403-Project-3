@@ -1,11 +1,15 @@
 # dev_eval.py
 import os
+import ssl
 import joblib
 import numpy as np
 import torch
 import torchvision.transforms as T
 from PIL import Image
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# Bypass SSL verification for PyTorch Hub
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # --------------------------------------------------
 # 1. Load model + DINOv2 + transforms
@@ -35,7 +39,7 @@ def embed(path):
 # 2. Evaluate the Dev folder
 # --------------------------------------------------
 
-DEV_DIR = os.path.join(os.getcwd(), "Dev")
+DEV_DIR = os.path.join(os.getcwd(), "HoldoutSet02")
 classes = ["Alex", "Kelly"]
 
 y_true = []
